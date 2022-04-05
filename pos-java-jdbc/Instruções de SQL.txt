@@ -1,0 +1,69 @@
+
+No projeto precisams ter tabelas filhas, no  caso uma tabela de numero de telefones.
+
+Regra um telefone só pode ter um pai.
+
+a relação tem que ter uma restrição
+um Pai pode ter varios telefones
+
+Instrução SQL
+alter table userposjava add unique (id);
+
+
+++++++++++++++++++++++++++++++++++
+
+Criando a tabela filha
+
+SQL script
+
+----------------
+create table telefoneuser(
+id bigint not null,
+numero character varying (255) not null,
+tipo character varying (255) not null,
+usuariopessoa bigint not null
+constraint telefone_id primary key (id)
+
+)
+
+Recebera a mensagem :
+Create table , primary key criará indice implicito "telefone_id" na tabela "telefoneuser"
+
+-----------------------------------------------------
+
+Agora precisamos apontar qual a id da tabela pai.
+
+Na tabela filha no postgres abra as abas e na coluna usuario pessoa, selecione e clique no icone SQL na aba superior
+essa instrução:
+alter table telefoneuser add foreign key (usuariopessoa) references userposjava (id)
+
+
+
+###############################################################
+
+Definindo sequencia na ID da classe filha
+
+CREATE SEQUENCE user_telefone_seq
+
+  INCREMENT 1
+  MINVALUE 1
+  MAXVALUE 9223372036854775807
+  START 1
+  CACHE 1;
+ALTER TABLE user_telefone_seq
+  OWNER TO postgres;
+
+################################################################
+
+Indicar o Serial user_telefone_seq
+nextval é uma expressão do postgress
+Aqui você esta setando a id Default
+
+ALTER TABLE telefoneuser ALTER COLUMN id SET DEFAULT nextval ('user_telefone_seq'::regclass);
+
+################################################################
+
+
+
+
+
