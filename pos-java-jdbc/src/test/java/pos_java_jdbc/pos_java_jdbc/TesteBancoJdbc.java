@@ -67,7 +67,7 @@ public class TesteBancoJdbc {
 			e.printStackTrace();
 		}
 	}
-	
+	//
 	@Test
 	public void testeInsertTelefone() {
 		Telefone telefone = new Telefone();
