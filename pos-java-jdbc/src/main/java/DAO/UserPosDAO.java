@@ -7,7 +7,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.postgresql.util.PSQLException;
+
 import conexaojdbc.SingleConnection;
+import model.Telefone;
 import model.UserPosjava;
 
 public class UserPosDAO {
@@ -39,6 +42,32 @@ public class UserPosDAO {
 		}
 
 	}
+	
+	public void salvarTelefone(Telefone telefone) {
+		
+		
+		
+		try {
+			String sql = "INSERT INTO public.telefoneuser( numero, tipo, usuariopessoa) VALUES ( ?, ?, ?);";
+			PreparedStatement insert = connection.prepareStatement(sql);
+			insert.setString(1, telefone.getNumero());
+			insert.setString(2, telefone.getTipo());
+			insert.setLong(3, telefone.getUsuario());
+			insert.execute();
+			connection.commit();
+			
+		}catch (SQLException e) {
+			e.printStackTrace();
+			
+			try {
+				connection.rollback();
+			}catch (SQLException e1) {
+				e1.printStackTrace();
+				
+			}
+		}
+	}
+	
 
 	public List<UserPosjava> Listar() throws Exception {
 
